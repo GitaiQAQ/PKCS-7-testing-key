@@ -97,7 +97,7 @@ int main(int argc, char **argv)
 
 	kbuild_verbose = atoi(getenv("KBUILD_VERBOSE")?:"0");
 
-        key_pass = getenv("KBUILD_SIGN_PIN");
+    key_pass = getenv("KBUILD_SIGN_PIN");
 
 	if (argc != 3)
 		format();
