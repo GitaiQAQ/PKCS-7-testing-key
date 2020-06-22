@@ -2,7 +2,7 @@
  * @Author: Gitai<i@gitai.me>
  * @Date: 2020-05-06 20:44:02
  * @LastEditors: Gitai
- * @LastEditTime: 2020-06-21 11:52:45
+ * @LastEditTime: 2020-06-22 10:01:09
  * @FilePath: /pkcs7test/main.c
  */ 
 #include <linux/key.h>
@@ -126,6 +126,7 @@ static int __init pkcs7_key_init(void)
 	pkcs7 = pkcs7_parse_message(sign, sign_size);
     for (sinfo = pkcs7->signed_infos; sinfo; sinfo = sinfo->next) {
         printk("sinfo index: %d\n", sinfo->index);
+		// 爲什麼這個 signer 是空指針
         for (x509 = sinfo->signer; x509; x509 = x509->signer) {
             printk("x509 id: %d\n", x509->id->len);
             printk("x509 skid: %d\n", x509->skid->len);
@@ -135,7 +136,7 @@ static int __init pkcs7_key_init(void)
 
     rt = verify_pkcs7_signature(data, data_size,
                                 sign, sign_size,
-                                builtin_trusted_keys, VERIFYING_MODULE_SIGNATURE,
+                                builtin_trusted_keys, VERIFYING_UNSPECIFIED_SIGNATURE,
                                 NULL, NULL);
 
     printk("rt: %d\n", rt);

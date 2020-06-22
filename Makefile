@@ -1,4 +1,4 @@
-NAME		:= tm
+NAME		:= pkcs7
 obj-m		:= $(NAME).o
 KDIR 		:= /lib/modules/$(shell uname -r)/build
 # KDIR 		:= /lib/modules/4.19.126/build
@@ -50,8 +50,8 @@ sign-file:
 	${CC} -o $@ $@.c -lssl -lcrypto
 
 test.txt.p7s: test.txt sign-file cacert.crt cert.crt
-	# openssl smime -sign -in test.txt -inkey key.pem -outform DER -binary -signer cert.pem -out test.txt.p7s
-	./sign-file -d sha256 ./key.pem ./cert.crt test.txt
+	openssl smime -sign -in test.txt -inkey key.pem -noattr -outform DER -binary -signer cert.pem -out test.txt.p7s
+	# ./sign-file -d sha256 ./key.pem ./cert.crt test.txt
 
 clean-files += test.txt sign-file test.txt.p7s
 
